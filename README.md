@@ -93,11 +93,12 @@ function isPrimeNumber(num) {
 
 (2) 소수 개수 세기
 
-> 에라토스테네스의 체 이용하기. 마찬가지로 N의 제곱근까지만 시행하면 됨. (e.g. 11^2 > 120 이므로 11보다 작은 수의 배수들만 지워도 충분하다.)
+> 에라토스테네스의 체 이용하기.(배열) <br/>
+> 마찬가지로 N의 제곱근까지만 시행하면 됨. (e.g. 11^2 > 120 이므로 11보다 작은 수의 배수들만 지워도 충분하다.)
 
 ```js
 function isPrime(num) {
-  //index 0이 존재하므로 배열을 num + 1로 만든다.
+  // 배열 길이: num + 1 (index 0이 존재하므로)
   let arr = Array(num + 1).fill(true);
 
   arr[0] = false;
@@ -105,12 +106,17 @@ function isPrime(num) {
 
   for (let i = 2; i <= Math.sqtr(num); i++) {
     if (arr[i]) {
+      // 아직 지워지지 않은 수
+      // i의 배수들 지우기
       for (let j = i * i; j <= num; j += i) {
-        //반복을 i * i 부터 시작하는 것은 그 이전의 값은 j이전의 수에서 이미 확인했기 때문
-        arr[j] = false; //배수이므로 소수가 아닌것으로 만든다.
+        // 반복을 i * i 부터 시작하는 이유:
+        // 2 ~ i-1은 이미 이 방식으로 확인된 수들이기 때문
+        // e.g. i = 5) 5*2, 5*3, 5*4 는 이미 2,3,4턴에 지워짐.
+        arr[j] = false;
       }
     }
   }
-  return arr.filter((el) => el).length; //filter로 arr중 값이 true인 것의 개수를 구한다.
+
+  return arr.filter((el) => el).length;
 }
 ```
