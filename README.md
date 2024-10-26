@@ -123,7 +123,7 @@ function isPrime(num) {
 }
 ```
 
-#### DP
+#### 🔵 DP (algorithm)
 * 점화식 생각하기
 * 최소 N값 (N = 1,2,3..) return값 정의하기
 * memoization 이용하기 (`const memo = new Array(N)`)
