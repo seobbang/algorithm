@@ -13,6 +13,7 @@
 | 241007 | 프로그래머스 - k진수에서 소수 개수 구하기(Lv2)                                     |
 | 241025 | 백준 - 설탕 배달(2839) #DP                          |
 | 241026 | 백준 - 1로 만들기(1463), 2×n 타일링(11726) #DP                          |
+| 241027 | 백준 - DFS와 BFS(1260), 단지번호붙이기(2667) #DFS,BFS                     |
 
 ---
 
@@ -123,13 +124,118 @@ function isPrime(num) {
 }
 ```
 
-#### 🔵 DP (algorithm)
-* 점화식 생각하기
-* 최소 N값 (N = 1,2,3..) return값 정의하기
-* memoization 이용하기 (`const memo = new Array(N)`)
-
 #### 🟡 2×n 타일
 점화식 : `f(N) = f(N-1) + f(N-2)` (피보나치 수열)
 > f(N-1) 에 2x1 타일을 하나 더 더하는 경우
 > f(N-2) 에 1x2 타일을 두개 더 더하는 경우
 
+#### 🟡 dx,dy 테크닉
+```js
+  // 상하좌우
+  const dx = [0, 0, 1, -1];
+  const dy = [1, -1, 0, 0];
+
+  function isVariableArea(x, y) {
+    if (x < 0 || x >= N || y < 0 || y >= N) return false;
+    if (visited[x][y] || graph[x][y] === 0) return false;
+    return true;
+  }
+
+  // 상하좌우 탐색
+  for (let i = 0; i < 4; i++) {
+    const nextX = x + dx[i];
+    const nextY = y + dy[i];
+
+    // 가능한 곳이라면 (존재하고, 방문하지 않은)
+    if (isVariableArea(nextX, nextY)) {
+      DFS(nextX, nextY); // 그 곳에서 또 탐색
+    }
+  }
+```
+
+#### 🟡 `arr.sort` 메소드
+`arr.sort([compareFunction])`
+> `compareFunction`생략하면 배열은 각 요소의 문자열 변환에 따라 각 문자의 **유니 코드 코드 포인트 값**에 따라 정렬된다.
+> 숫자 정렬에서는 9가 80보다 앞에 오지만 숫자는 문자열로 변환되기 때문에 "80"은 유니 코드 순서에서 "9"앞에 온다.
+
+```js
+const array1 = [1, 30, 4, 21, 100000];
+array1.sort();
+console.log(array1);
+// Expected output: Array [1, 100000, 21, 30, 4]
+```
+
+👉 숫자를 정렬할 땐 반드시 정렬 함수 써줄것
+
+---
+
+### 🔑 Algorithm
+
+#### 🔵 DP
+* 점화식 생각하기
+* 최소 N값 (N = 1,2,3..) return값 정의하기
+* memoization 이용하기 (`const memo = new Array(N)`)
+
+#### 🔵 DFS/BFS
+* DFS: 깊이 우선 탐색
+  * **재귀함수** 이용하기
+  * 인접 행렬
+    ```js
+    function dfs(vertex) {
+    	for (let currV = 1; currV <= VERTICES_NUM; currV++) {
+    		if(graph[vertex][currv] === 1 && !visited[currV] {
+    			console.log(currV);
+    			visited[currV] = true;
+    			dfs(currV);
+    		}
+    	}
+    }
+    ```
+  * 인접 리스트
+    ```js
+    function dfs(vertex) {
+    	for (let i = 0; i < graph[vertex].length; i++) {
+    		let currV = graph[vertex][i];
+    		if (!visited[currV]) {
+    			console.log(currV);
+    			visited[currV] = true;
+    			dfs(currV);
+    		}
+    	}
+    }
+    ```
+* BFS: 너비 우선 탐색
+  * **queue** 이용하기
+  * 인접 행렬
+    ```js
+    function BFS() {
+    	while(!q.empty()) {
+    		let currV = q.pop();
+    		
+    		for(let nextV = 1; nextV <= VERTICES_NUM; nextV++) {
+    			if(graph[currV][nextV] === 1 && !visited[nextV]) {
+    				console.log(nextV);
+    				visited[nextV] = true;
+    				q.push(nextV);
+    			}
+    		}
+    	}
+    }
+    ```
+  * 인접 리스트
+    ```js
+    function BFS() {
+    	while(!q.empty()) {
+    		int currV = q.pop();
+    		
+    		for(int i=0; i < graph[currV].size(); i++) {
+    			int nextV = graph[currV][i];
+    			if(!visited[nextV]) {
+    				console.log(nextV);
+    				visited[nextV] = true;
+    				q.push(nextV);
+    			}
+    		}
+    	}
+    }
+    ```
