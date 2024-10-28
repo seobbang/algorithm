@@ -16,7 +16,7 @@ function calculateLanCount(length) {
 
 function solution() {
   let left = 0;
-  let right = lanArr.length - 1;
+  let right = lanArr[lanArr.length - 1];
   let max_idx = -1;
 
   while (left <= right) {

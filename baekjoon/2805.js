@@ -15,7 +15,7 @@ function calculateTree(H) {
 
 function solution() {
   let left = 0;
-  let right = treeArr.length - 1;
+  let right = treeArr[treeArr.length - 1];
   let max_idx = -1;
 
   while (left <= right) {
