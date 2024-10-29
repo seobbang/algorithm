@@ -1,56 +1,31 @@
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
-const [N, C] = input[0].split(" ").map(Number);
-const home = [];
-for (let i = 1; i <= N; i++) {
-  home.push(Number(input[i]));
-}
-home.sort((a, b) => a - b);
-
-function findIndex(distance, homeCopy) {
-  let left = 0;
-  let right = homeCopy.length - 1;
-  let min_idx = homeCopy.length;
-
-  while (left <= right) {
-    const mid = Math.floor(left + right / 2);
-
-    if (homeCopy[mid] >= distance) {
-      right = mid - 1;
-      min_idx = Math.min(min_idx, mid);
-    } else {
-      left = mid + 1;
-    }
-  }
-
-  return min_idx === homeCopy.length ? -1 : min_idx;
-}
+const [firstLine, ...data] = input;
+const [, C] = firstLine.split(" ").map(Number);
+const home = data.map(Number).sort((a, b) => a - b);
 
 function calculateCount(distance) {
+  // 제일 왼쪽에 하나 놓기
   let count = 1;
-  let now = home[0];
-  let homeCopy = [...home];
+  let prev = home[0];
 
-  while (true) {
-    const index = findIndex(now + distance, homeCopy);
-
-    if (index === -1) {
-      break;
-    } else {
+  home.forEach((cur) => {
+    if (cur - prev >= distance) {
       count++;
-      now = homeCopy[index];
-      homeCopy.splice(0, index + 1);
+      prev = cur;
     }
-  }
+  });
 
   return count;
 }
 
 function solution() {
-  let left = 0;
-  let right = home.length - 1;
-  let max_idx = -1;
+  // left, right => 거리
+  let left = 1;
+  let right = home[home.length - 1];
+
+  let max_idx = -1; // 가능한 거리 중 가장 큰 거리
 
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
