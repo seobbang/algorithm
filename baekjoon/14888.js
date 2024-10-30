@@ -17,10 +17,7 @@ const caclulator = [
   (a, b) => ~~(a / b),
 ];
 
-let total = 0;
-
 function dfs(count, result) {
-  total++;
   if (count === N - 1) {
     max = Math.max(result, max);
     min = Math.min(result, min);
@@ -39,4 +36,3 @@ dfs(0, numArr[0]);
 
 console.log(max);
 console.log(min);
-console.log(total);
