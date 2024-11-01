@@ -1,4 +1,3 @@
-// 솔루션 참고
 const fs = require("fs");
 const input = fs.readFileSync("./input.txt").toString().trim().split("\n");
 
